@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container mt-4">
+    <div class="d-flex justify-content-between">
+        <h2>Admin Panel</h2>
+        <a href="/logout" class="btn btn-danger">Logout</a>
+    </div>
+
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Status</th>
+                <th>Plan</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(u=> { %>
+                <tr>
+                    <td>
+                        <%= u.username %>
+                    </td>
+                    <td>
+                        <% if(u.isApproved) { %>
+                            <span class="badge bg-success">Active</span>
+                            <% } else { %>
+                                <span class="badge bg-danger">Pending</span>
+                                <% } %>
+                    </td>
+                    <td>
+                        <%= u.plan.toUpperCase() %>
+                    </td>
+                    <td>
+                        <% if(!u.isApproved) { %>
+                            <form action="/admin/approve/<%= u._id %>" method="POST" class="d-inline">
+                                <button class="btn btn-sm btn-success">Approve</button>
+                            </form>
+                            <% } %>
+                                <form action="/admin/toggle-plan/<%= u._id %>" method="POST" class="d-inline">
+                                    <button class="btn btn-sm btn-info">Toggle Plan</button>
+                                </form>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
+</body>
+
+</html>
